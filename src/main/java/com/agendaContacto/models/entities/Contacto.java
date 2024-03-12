@@ -14,6 +14,7 @@ public class Contacto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 20)
     private String telefono;
     private String nombre;
     private String descripcion;
