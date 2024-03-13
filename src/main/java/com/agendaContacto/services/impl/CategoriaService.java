@@ -53,7 +53,14 @@ public class CategoriaService implements ICategoriaService {
 
     @Override
     public CategoriaDto saveCategory(CategoriaDto categoriaDto) {
-        return null;
+        Categoria categoria = Categoria.builder()
+                .nombreCategoria(categoriaDto.getNombreCategoria())
+                .build();
+        categoriaDao.save(categoria);
+
+        return CategoriaDto.builder()
+                .nombreCategoria(categoria.getNombreCategoria())
+                .build();
     }
 
     @Override

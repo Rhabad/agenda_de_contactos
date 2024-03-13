@@ -2,6 +2,7 @@ package com.agendaContacto.models.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
         @UniqueConstraint(columnNames = {"nombre_categoria"})
 })
 @Data @AllArgsConstructor @NoArgsConstructor
+@Builder
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
