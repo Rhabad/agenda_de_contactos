@@ -24,28 +24,31 @@ public class CategoriaService implements ICategoriaService {
     private ContactoDao contactoDao;
 
     @Override
-    public List<CategoriaYContactoDto> findAllCategoryAndContact() {
-        List<Contacto> lista = (List<Contacto>) contactoDao.findAll();
+    public CategoriaYContactoDto findAllCategoryAndContact(String nombre) {
+        Categoria categoria = categoriaDao.findByNombre(nombre)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Categoria", "nombre_categoria", nombre)
+                );
 
-        List<CategoriaYContactoDto> listaDTO = new ArrayList<>();
-        for (Contacto contacto : lista) {
-            ContactoDto contactoDto = ContactoDto.builder()
-                    .telefono(contacto.getTelefono())
-                    .nombre(contacto.getNombre())
-                    .email(contacto.getEmail())
-                    .descripcion(contacto.getDescripcion())
-                    .build();
+        List<Contacto> listaContactos = contactoDao.findAllByIdCategoria(categoria.getId());
 
-            listaDTO.add(
-                    CategoriaYContactoDto.builder()
-                            .id(contacto.getCategoria().getId())
-                            .nombreCategoria(contacto.getCategoria().getNombreCategoria())
-                            .contactos(contactoDto)
-                            .build());
+        List<ContactoDto> contactoDtoList = new ArrayList<>();
+        for (Contacto contact : listaContactos) {
+            contactoDtoList.add(ContactoDto.builder()
+                    .telefono(contact.getTelefono())
+                    .nombre(contact.getNombre())
+                    .email(contact.getEmail())
+                    .descripcion(contact.getDescripcion())
+                    .build());
         }
 
+        CategoriaYContactoDto categoriaYContactoDto = CategoriaYContactoDto.builder()
+                .id(categoria.getId())
+                .nombreCategoria(categoria.getNombreCategoria())
+                .contactos(contactoDtoList)
+                .build();
 
-        return listaDTO;
+        return categoriaYContactoDto;
     }
 
     @Override
