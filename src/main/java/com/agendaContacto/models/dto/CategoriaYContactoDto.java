@@ -10,5 +10,5 @@ import java.util.List;
 public class CategoriaYContactoDto {
     private Integer id;
     private String nombreCategoria;
-    private ContactoDto contactos;
+    private List<ContactoDto> contactos;
 }
