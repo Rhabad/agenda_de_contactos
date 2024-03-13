@@ -25,4 +25,16 @@ public class CategoriaController {
     public ResponseEntity<CategoriaDto> createCategory(@RequestBody CategoriaDto categoriaDto){
         return new ResponseEntity<>(categoriaService.saveCategory(categoriaDto), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/categoria/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Integer id){
+        categoriaService.deleteCategory(id);
+        return new ResponseEntity<>("Categoria eliminada con exito", HttpStatus.OK);
+    }
+
+    @PutMapping("/categoria/{id}")
+    public ResponseEntity<CategoriaDto> upgradeCategory(
+            @PathVariable Integer id, @RequestBody CategoriaDto categoriaDto) {
+        return new ResponseEntity<>(categoriaService.upgradeCategory(id, categoriaDto), HttpStatus.OK);
+    }
 }

@@ -65,11 +65,29 @@ public class CategoriaService implements ICategoriaService {
 
     @Override
     public void deleteCategory(Integer id) {
+        List<Contacto> listaContactos = contactoDao.findAllByIdCategoria(id);
+        for (Contacto contacto : listaContactos) {
+            contacto.setCategoria(null);
+            contactoDao.save(contacto);
+        }
+
+        categoriaDao.deleteById(id);
 
     }
 
     @Override
     public CategoriaDto upgradeCategory(Integer id, CategoriaDto categoriaDto) {
-        return null;
+        Categoria categoria = categoriaDao.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Categoria", "id", id.toString())
+                );
+        categoria.setNombreCategoria(categoriaDto.getNombreCategoria());
+
+        Categoria categoriaActualizada = categoriaDao.save(categoria);
+
+        return CategoriaDto.builder()
+                .id(categoriaActualizada.getId())
+                .nombreCategoria(categoriaActualizada.getNombreCategoria())
+                .build();
     }
 }
