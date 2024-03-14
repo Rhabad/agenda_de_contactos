@@ -21,9 +21,37 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDetalles errorDetalles = ErrorDetalles.builder()
                 .marcaDeTiempo(new Date())
                 .mensaje(exception.getMessage())
-                .error(webRequest.getDescription(false))
+                .detalles(webRequest.getDescription(false))
                 .build();
 
         return new ResponseEntity<>(errorDetalles, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AgendaContactoException.class)
+    public ResponseEntity<ErrorDetalles> manejarRecourceNotFoundException(
+            AgendaContactoException exception,
+            WebRequest webRequest
+    ){
+        ErrorDetalles errorDetalles = ErrorDetalles.builder()
+                .marcaDeTiempo(new Date())
+                .mensaje(exception.getMessage())
+                .detalles(webRequest.getDescription(false))
+                .build();
+
+        return new ResponseEntity<>(errorDetalles, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDetalles> manejarGlobalException(
+            Exception exception,
+            WebRequest webRequest
+    ){
+        ErrorDetalles errorDetalles = ErrorDetalles.builder()
+                .marcaDeTiempo(new Date())
+                .mensaje(exception.getMessage())
+                .detalles(webRequest.getDescription(false))
+                .build();
+
+        return new ResponseEntity<>(errorDetalles, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

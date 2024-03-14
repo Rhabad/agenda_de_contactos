@@ -12,5 +12,5 @@ import java.util.Date;
 public class ErrorDetalles {
     private Date marcaDeTiempo;
     private String mensaje;
-    private String error;
+    private String detalles;
 }
