@@ -23,14 +23,22 @@ public class CategoriaService implements ICategoriaService {
     @Autowired
     private ContactoDao contactoDao;
 
+    /**
+     * Mostramos por id de usuario y nombre de categoria.
+     * @param nombre
+     * @param idUsuario
+     * @return
+     * retorna un dto que muestra nombre de usuario, la categoria y los contactos.
+     */
     @Override
-    public CategoriaYContactoDto findAllCategoryAndContact(String nombre) {
-        Categoria categoria = categoriaDao.findByNombre(nombre)
+    public CategoriaYContactoDto findAllCategoryAndContact(String nombre, Long idUsuario) {
+        Categoria categoria = categoriaDao.findByNombreAndIdUsuario(nombre, idUsuario)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Categoria", "nombre_categoria", nombre)
                 );
 
-        List<Contacto> listaContactos = contactoDao.findAllByIdCategoria(categoria.getId());
+        List<Contacto> listaContactos = contactoDao
+                .findAllByIdCategoriaAndIdUsuario(categoria.getId(), idUsuario);
 
         List<ContactoDto> contactoDtoList = new ArrayList<>();
         for (Contacto contact : listaContactos) {
@@ -51,20 +59,23 @@ public class CategoriaService implements ICategoriaService {
         return categoriaYContactoDto;
     }
 
-    @Override
-    public List<CategoriaDto> findAll() {
-        List<Categoria> categoriaList = (List<Categoria>) categoriaDao.findAll();
 
-        List<CategoriaDto> categoriaDtoList = new ArrayList<>();
-        for (Categoria categoria: categoriaList){
-            categoriaDtoList.add(CategoriaDto.builder()
-                            .id(categoria.getId())
-                            .nombreCategoria(categoria.getNombreCategoria())
-                    .build());
-        }
-        return categoriaDtoList;
+    /**
+     * muestra todas las categorias y sus contactos asociadas a un usuario
+     * @return
+     */
+    @Override
+    public List<CategoriaYContactoDto> findAll(Long idUSuario) {
+
+        return null;
     }
 
+    /**
+     * guardamos la nueva categoria en la base de datos
+     * @param categoriaDto
+     * @return
+     * retornamos un dto mostrando lo guardado.
+     */
     @Override
     public CategoriaDto saveCategory(CategoriaDto categoriaDto) {
         Categoria categoria = Categoria.builder()
@@ -79,7 +90,10 @@ public class CategoriaService implements ICategoriaService {
 
     @Override
     public void deleteCategory(Integer id) {
+        // buscamos todos los contactos relacionados a ese contacto.
         List<Contacto> listaContactos = contactoDao.findAllByIdCategoria(id);
+
+        // eliminamos la categoria de cada contacto.
         for (Contacto contacto : listaContactos) {
             contacto.setCategoria(null);
             contactoDao.save(contacto);
@@ -89,6 +103,15 @@ public class CategoriaService implements ICategoriaService {
 
     }
 
+
+    /**
+     * buscamos categoria por el id, luego cambiamos su nombre y
+     * por ultimo lo guardamos
+     * @param id
+     * @param categoriaDto
+     * @return
+     * se retorna un dto de los cambios.
+     */
     @Override
     public CategoriaDto upgradeCategory(Integer id, CategoriaDto categoriaDto) {
         Categoria categoria = categoriaDao.findById(id)
