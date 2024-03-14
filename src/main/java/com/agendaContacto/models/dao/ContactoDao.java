@@ -10,4 +10,7 @@ public interface ContactoDao extends CrudRepository<Contacto, Long> {
 
     @Query(value = "select * from contacto where id_categoria = :idCategoria", nativeQuery = true)
     List<Contacto> findAllByIdCategoria(Integer idCategoria);
+
+    @Query(value = "select * from contacto where id_usuario = :idUsuario", nativeQuery = true)
+    List<Contacto> findAllByIdUsuario(Integer idUsuario);
 }
