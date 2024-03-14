@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface CategoriaDao extends CrudRepository<Categoria, Integer> {
-    @Query(value = "select * from categoria where nombre_categoria = :nombreCategoria", nativeQuery = true)
-    Optional<Categoria> findByNombre(String nombreCategoria);
+    @Query(value = "select * from categoria where nombre_categoria = :nombreCategoria and id_usuario = :idUsuario", nativeQuery = true)
+    Optional<Categoria> findByNombreAndIdUsuario(String nombreCategoria, Long idUsuario);
 
 }
