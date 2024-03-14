@@ -23,7 +23,7 @@ public class Categoria {
     private String nombreCategoria;
 
     @OneToMany(mappedBy = "categoria", orphanRemoval = true)
-    private Set<Contacto> contactos = new HashSet<>();
+    private List<Contacto> contactos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
