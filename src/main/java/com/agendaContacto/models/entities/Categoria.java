@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "categoria", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"nombre_categoria"})
-})
+@Table(name = "categoria")
 @Data @AllArgsConstructor @NoArgsConstructor
 @Builder
 public class Categoria {
@@ -24,4 +22,8 @@ public class Categoria {
 
     @OneToMany(mappedBy = "categoria", orphanRemoval = true)
     private List<Contacto> contactos = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 }
