@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "categoria")
@@ -21,7 +23,7 @@ public class Categoria {
     private String nombreCategoria;
 
     @OneToMany(mappedBy = "categoria", orphanRemoval = true)
-    private List<Contacto> contactos = new ArrayList<>();
+    private Set<Contacto> contactos = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
