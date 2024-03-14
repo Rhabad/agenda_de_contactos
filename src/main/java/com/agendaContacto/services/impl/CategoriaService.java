@@ -52,6 +52,20 @@ public class CategoriaService implements ICategoriaService {
     }
 
     @Override
+    public List<CategoriaDto> findAll() {
+        List<Categoria> categoriaList = (List<Categoria>) categoriaDao.findAll();
+
+        List<CategoriaDto> categoriaDtoList = new ArrayList<>();
+        for (Categoria categoria: categoriaList){
+            categoriaDtoList.add(CategoriaDto.builder()
+                            .id(categoria.getId())
+                            .nombreCategoria(categoria.getNombreCategoria())
+                    .build());
+        }
+        return categoriaDtoList;
+    }
+
+    @Override
     public CategoriaDto saveCategory(CategoriaDto categoriaDto) {
         Categoria categoria = Categoria.builder()
                 .nombreCategoria(categoriaDto.getNombreCategoria())

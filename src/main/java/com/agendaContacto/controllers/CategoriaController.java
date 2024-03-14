@@ -17,9 +17,14 @@ public class CategoriaController {
     private ICategoriaService categoriaService;
 
     @GetMapping("/categoria/{nombre}")
-    public ResponseEntity<CategoriaYContactoDto> getAll(@PathVariable String nombre){
+    public ResponseEntity<CategoriaYContactoDto> getAllCategoryAndContact(@PathVariable String nombre){
         return ResponseEntity.ok(categoriaService.findAllCategoryAndContact(nombre));
     }
+    @GetMapping("/categorias")
+    public ResponseEntity<List<CategoriaDto>> getAll(){
+        return new ResponseEntity<>(categoriaService.findAll(), HttpStatus.OK);
+    }
+
 
     @PostMapping("/categoria")
     public ResponseEntity<CategoriaDto> createCategory(@RequestBody CategoriaDto categoriaDto){
