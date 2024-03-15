@@ -25,10 +25,10 @@ public class CategoriaService implements ICategoriaService {
 
     /**
      * Mostramos por id de usuario y nombre de categoria.
+     *
      * @param nombre
      * @param idUsuario
-     * @return
-     * retorna un dto que muestra nombre de usuario, la categoria y los contactos.
+     * @return retorna un dto que muestra nombre de usuario, la categoria y los contactos.
      */
     @Override
     public CategoriaYContactoDto findAllCategoryAndContact(String nombre, Long idUsuario) {
@@ -52,6 +52,7 @@ public class CategoriaService implements ICategoriaService {
 
         CategoriaYContactoDto categoriaYContactoDto = CategoriaYContactoDto.builder()
                 .id(categoria.getId())
+                .username(categoria.getUsuario().getUsername())
                 .nombreCategoria(categoria.getNombreCategoria())
                 .contactos(contactoDtoList)
                 .build();
@@ -62,19 +63,50 @@ public class CategoriaService implements ICategoriaService {
 
     /**
      * muestra todas las categorias y sus contactos asociadas a un usuario
+     *
      * @return
      */
     @Override
-    public List<CategoriaYContactoDto> findAll(Long idUSuario) {
+    public List<CategoriaYContactoDto> findAll(Long idUsuario) {
+        List<Categoria> listaCategorias = categoriaDao.findByIdUsuario(idUsuario);
 
-        return null;
+        List<CategoriaYContactoDto> catAndCont = new ArrayList<>();
+        List<ContactoDto> dtoContactos = new ArrayList<>();
+        // recorremos lista categoria
+        for (Categoria cate : listaCategorias) {
+            // encontramos los contactos de esa categoria
+            List<Contacto> listaContactos = contactoDao
+                    .findAllByIdCategoriaAndIdUsuario(cate.getId(), idUsuario);
+
+            // recorremos lista de contactos
+            for (Contacto contacto : listaContactos) {
+                dtoContactos.add(ContactoDto.builder()
+                        .telefono(contacto.getTelefono())
+                        .nombre(contacto.getNombre())
+                        .email(contacto.getEmail())
+                        .descripcion(contacto.getDescripcion())
+                        .build());
+            }
+            // buildeamos al dto
+            CategoriaYContactoDto categoriaYContactoDto = CategoriaYContactoDto.builder()
+                    .id(cate.getId())
+                    .username(cate.getUsuario().getUsername())
+                    .nombreCategoria(cate.getNombreCategoria())
+                    .contactos(dtoContactos)
+                    .build();
+
+            //le agregamos a lista de dto's
+            catAndCont.add(categoriaYContactoDto);
+        }
+
+        return catAndCont;
     }
 
     /**
      * guardamos la nueva categoria en la base de datos
+     *
      * @param categoriaDto
-     * @return
-     * retornamos un dto mostrando lo guardado.
+     * @return retornamos un dto mostrando lo guardado.
      */
     @Override
     public CategoriaDto saveCategory(CategoriaDto categoriaDto) {
@@ -107,10 +139,10 @@ public class CategoriaService implements ICategoriaService {
     /**
      * buscamos categoria por el id, luego cambiamos su nombre y
      * por ultimo lo guardamos
+     *
      * @param id
      * @param categoriaDto
-     * @return
-     * se retorna un dto de los cambios.
+     * @return se retorna un dto de los cambios.
      */
     @Override
     public CategoriaDto upgradeCategory(Integer id, CategoriaDto categoriaDto) {
