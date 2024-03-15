@@ -7,8 +7,8 @@ import java.util.List;
 
 
 public interface ICategoriaService {
-    CategoriaYContactoDto findAllCategoryAndContact(String nombre);
-    List<CategoriaDto> findAll();
+    CategoriaYContactoDto findAllCategoryAndContact(String nombre, Long idUsuario);
+    List<CategoriaYContactoDto> findAll(Long idUsuario);
     CategoriaDto saveCategory(CategoriaDto categoriaDto);
     void deleteCategory(Integer id);
     CategoriaDto upgradeCategory(Integer id, CategoriaDto categoriaDto);

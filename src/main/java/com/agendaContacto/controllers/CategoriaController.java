@@ -16,18 +16,23 @@ public class CategoriaController {
     @Autowired
     private ICategoriaService categoriaService;
 
-    @GetMapping("/categoria/{nombre}")
-    public ResponseEntity<CategoriaYContactoDto> getAllCategoryAndContact(@PathVariable String nombre){
-        return ResponseEntity.ok(categoriaService.findAllCategoryAndContact(nombre));
+    @GetMapping("/categoria/{idUsuario}/{nombreCategoria}")
+    public ResponseEntity<CategoriaYContactoDto> getAllCategoryAndContact(
+            @PathVariable String nombreCategoria,
+            @PathVariable Long idUsuario
+    ){
+        return ResponseEntity.ok(categoriaService.findAllCategoryAndContact(nombreCategoria, idUsuario));
     }
-    @GetMapping("/categorias")
-    public ResponseEntity<List<CategoriaDto>> getAll(){
-        return new ResponseEntity<>(categoriaService.findAll(), HttpStatus.OK);
+    @GetMapping("/categorias/{idUsuario}")
+    public ResponseEntity<List<CategoriaYContactoDto>> getAll(@PathVariable Long idUsuario){
+        return new ResponseEntity<>(categoriaService.findAll(idUsuario), HttpStatus.OK);
     }
 
 
     @PostMapping("/categoria")
-    public ResponseEntity<CategoriaDto> createCategory(@RequestBody CategoriaDto categoriaDto){
+    public ResponseEntity<CategoriaDto> createCategory(
+            @RequestBody CategoriaDto categoriaDto
+    ){
         return new ResponseEntity<>(categoriaService.saveCategory(categoriaDto), HttpStatus.CREATED);
     }
 

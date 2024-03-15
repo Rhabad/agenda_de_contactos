@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 public class CategoriaYContactoDto {
     private Integer id;
+    private String username;
     private String nombreCategoria;
     private List<ContactoDto> contactos;
 }
