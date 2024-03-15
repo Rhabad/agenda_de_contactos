@@ -28,4 +28,21 @@ public class ContactoController {
     ) {
         return new ResponseEntity<>(contactoService.createContact(idUsuario, contactoDto), HttpStatus.CREATED);
     }
+
+    @PutMapping("/contacto/{id}")
+    public ResponseEntity<ContactoDto> updateContact(
+            @PathVariable Long id,
+            @RequestBody ContactoDto contactoDto
+    ) {
+        return new ResponseEntity<>(contactoService.updateContact(id, contactoDto), HttpStatus.OK);
+    }
+
+    @PatchMapping("/contacto/{id}/{nombreCategoriaACambia}")
+    public ResponseEntity<String> cambiarCategoria(
+            @PathVariable Long id,
+            @PathVariable String nombreCategoriaACambia
+    ){
+        return new ResponseEntity<>(contactoService.cambiarCategoriaDelContacto
+                (id, nombreCategoriaACambia), HttpStatus.OK);
+    }
 }
