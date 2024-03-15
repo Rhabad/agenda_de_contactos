@@ -68,12 +68,15 @@ public class CategoriaService implements ICategoriaService {
      */
     @Override
     public List<CategoriaYContactoDto> findAll(Long idUsuario) {
+        //arreglar esto, esta malito, se dublica los contactos
         List<Categoria> listaCategorias = categoriaDao.findByIdUsuario(idUsuario);
 
         List<CategoriaYContactoDto> catAndCont = new ArrayList<>();
-        List<ContactoDto> dtoContactos = new ArrayList<>();
+
         // recorremos lista categoria
         for (Categoria cate : listaCategorias) {
+            List<ContactoDto> dtoContactos = new ArrayList<>();
+
             // encontramos los contactos de esa categoria
             List<Contacto> listaContactos = contactoDao
                     .findAllByIdCategoriaAndIdUsuario(cate.getId(), idUsuario);
@@ -120,6 +123,12 @@ public class CategoriaService implements ICategoriaService {
                 .build();
     }
 
+    /**
+     * eliminamos la categoria, teniendo en cuenta que al borrarlo
+     * no se debe borrar los contactos asociados.
+     *
+     * @param id
+     */
     @Override
     public void deleteCategory(Integer id) {
         // buscamos todos los contactos relacionados a ese contacto.
