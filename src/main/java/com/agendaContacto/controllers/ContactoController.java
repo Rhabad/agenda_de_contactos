@@ -41,8 +41,17 @@ public class ContactoController {
     public ResponseEntity<String> cambiarCategoria(
             @PathVariable Long id,
             @PathVariable String nombreCategoriaACambia
-    ){
+    ) {
         return new ResponseEntity<>(contactoService.cambiarCategoriaDelContacto
                 (id, nombreCategoriaACambia), HttpStatus.OK);
     }
+
+    @DeleteMapping("/contacto/{id}")
+    public ResponseEntity<String> deleteContact(
+            @PathVariable Long id
+    ) {
+        contactoService.deleteContact(id);
+        return new ResponseEntity<>("Eliminado con exito", HttpStatus.OK);
+    }
+
 }

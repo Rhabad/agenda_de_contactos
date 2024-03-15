@@ -147,6 +147,10 @@ public class ContactoService implements IContactoService {
 
     @Override
     public void deleteContact(Long id) {
-
+        Contacto contacto = contactoDao.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Contacto", "id", id.toString())
+                );
+        contactoDao.delete(contacto);
     }
 }
