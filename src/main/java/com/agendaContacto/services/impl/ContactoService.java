@@ -38,6 +38,7 @@ public class ContactoService implements IContactoService {
         List<ContactoDto> contactoDtoList = new ArrayList<>();
         for (Contacto contacto : contactoList) {
             contactoDtoList.add(ContactoDto.builder()
+                    .idContacto(contacto.getId())
                     .telefono(contacto.getTelefono())
                     .nombre(contacto.getNombre())
                     .descripcion(contacto.getDescripcion())
@@ -71,6 +72,7 @@ public class ContactoService implements IContactoService {
         contactoDao.save(contacto);
 
         return ContactoDto.builder()
+                .idContacto(contacto.getId())
                 .telefono(contacto.getTelefono())
                 .nombre(contacto.getNombre())
                 .descripcion(contacto.getDescripcion())
@@ -99,6 +101,7 @@ public class ContactoService implements IContactoService {
         contactoDao.save(contacto);
 
         return ContactoDto.builder()
+                .idContacto(contacto.getId())
                 .email(contacto.getEmail())
                 .descripcion(contacto.getDescripcion())
                 .nombre(contacto.getNombre())

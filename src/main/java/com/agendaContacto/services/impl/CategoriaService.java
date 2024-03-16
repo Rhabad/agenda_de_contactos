@@ -43,6 +43,7 @@ public class CategoriaService implements ICategoriaService {
         List<ContactoDto> contactoDtoList = new ArrayList<>();
         for (Contacto contact : listaContactos) {
             contactoDtoList.add(ContactoDto.builder()
+                    .idContacto(contact.getId())
                     .telefono(contact.getTelefono())
                     .nombre(contact.getNombre())
                     .email(contact.getEmail())
@@ -51,7 +52,7 @@ public class CategoriaService implements ICategoriaService {
         }
 
         CategoriaYContactoDto categoriaYContactoDto = CategoriaYContactoDto.builder()
-                .id(categoria.getId())
+                .idCategoria(categoria.getId())
                 .username(categoria.getUsuario().getUsername())
                 .nombreCategoria(categoria.getNombreCategoria())
                 .contactos(contactoDtoList)
@@ -84,6 +85,7 @@ public class CategoriaService implements ICategoriaService {
             // recorremos lista de contactos
             for (Contacto contacto : listaContactos) {
                 dtoContactos.add(ContactoDto.builder()
+                        .idContacto(contacto.getId())
                         .telefono(contacto.getTelefono())
                         .nombre(contacto.getNombre())
                         .email(contacto.getEmail())
@@ -92,7 +94,7 @@ public class CategoriaService implements ICategoriaService {
             }
             // buildeamos al dto
             CategoriaYContactoDto categoriaYContactoDto = CategoriaYContactoDto.builder()
-                    .id(cate.getId())
+                    .idCategoria(cate.getId())
                     .username(cate.getUsuario().getUsername())
                     .nombreCategoria(cate.getNombreCategoria())
                     .contactos(dtoContactos)

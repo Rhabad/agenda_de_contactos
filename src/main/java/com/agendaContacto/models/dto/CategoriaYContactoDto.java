@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @Builder
 public class CategoriaYContactoDto {
-    private Integer id;
+    private Integer idCategoria;
     private String username;
     private String nombreCategoria;
     private List<ContactoDto> contactos;
