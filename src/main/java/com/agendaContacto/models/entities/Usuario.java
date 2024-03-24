@@ -21,8 +21,10 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
+    @Column(nullable = false)
     private String username;
     private String email;
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)

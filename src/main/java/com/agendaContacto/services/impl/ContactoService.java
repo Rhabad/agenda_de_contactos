@@ -3,7 +3,7 @@ package com.agendaContacto.services.impl;
 import com.agendaContacto.exceptions.ResourceNotFoundException;
 import com.agendaContacto.models.dao.CategoriaDao;
 import com.agendaContacto.models.dao.ContactoDao;
-import com.agendaContacto.models.dao.LoginDao;
+import com.agendaContacto.models.dao.UsuarioDao;
 import com.agendaContacto.models.dto.ContactoDto;
 import com.agendaContacto.models.entities.Categoria;
 import com.agendaContacto.models.entities.Contacto;
@@ -21,7 +21,7 @@ public class ContactoService implements IContactoService {
     @Autowired
     private ContactoDao contactoDao;
     @Autowired
-    private LoginDao loginDao;
+    private UsuarioDao usuarioDao;
     @Autowired
     private CategoriaDao categoriaDao;
 
@@ -57,7 +57,7 @@ public class ContactoService implements IContactoService {
      */
     @Override
     public ContactoDto createContact(Long idUsuario, ContactoDto contactoDto) {
-        Usuario usuario = loginDao.findById(idUsuario)
+        Usuario usuario = usuarioDao.findById(idUsuario)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Usuario", "id", idUsuario.toString())
                 );
